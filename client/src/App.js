@@ -4,7 +4,7 @@ navigator.serviceWorker.register('/sw.js')
 
     if(!subscription) {
 
-      const responsePublicKey = await fetch('http://localhost:3333/push/public_key', {
+      const responsePublicKey = await fetch('http://server:4000/push/public_key', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ navigator.serviceWorker.register('/sw.js')
       });
     }
 
-    await fetch('http://localhost:3333/push/register', {
+    await fetch('http://server:4000/push/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
