@@ -1,23 +1,36 @@
-# Use uma imagem base com Node.js
-FROM node:18
+# Etapa 1: Build
+FROM node:18 AS builder
 
-# Defina o diretório de trabalho no container
-WORKDIR /app
+# Definir o diretório de trabalho dentro do container
+WORKDIR /workspace
 
-# Copie o arquivo package.json e package-lock.json
+# Copiar os arquivos necessários
 COPY package*.json ./
 
-# Instale as dependências
+# Instalar as dependências
 RUN npm install
 
-# Copie o restante do código da aplicação
+# Copiar o restante do código da aplicação
 COPY . .
 
-# Compile o código TypeScript para JavaScript
+# Gerar o build (para TypeScript ou se houver outros passos de build)
 RUN npm run build
 
-# Exponha a porta na qual o app será executado
+# Etapa 2: Runtime
+FROM node:18
+
+# Definir o diretório de trabalho no container final
+WORKDIR /workspace
+
+# Copiar os arquivos do build da etapa anterior
+COPY --from=builder /workspace/build ./build
+COPY --from=builder /workspace/package*.json ./
+
+# Instalar apenas as dependências necessárias para produção
+RUN npm install --production
+
+# Expor a porta que o servidor usa
 EXPOSE 4000
 
 # Comando para iniciar a aplicação
-CMD ["npm", "run", "start"]
+CMD ["node", "build/server.js"]
