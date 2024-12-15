@@ -10,7 +10,14 @@ webpush.setVapidDetails('mailto:cristiangiordani@gmail.com', VAPID_PUBLIC_KEY, V
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: '*' }));
+
+const corsOptions = {
+  origin: '*', // Permite qualquer origem
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+};
+
+app.use(cors(corsOptions));
 
 const subscriptions: any[] = [];  // Simulando um banco de dados
 
