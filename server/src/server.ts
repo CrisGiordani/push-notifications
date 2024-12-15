@@ -14,6 +14,10 @@ app.use(cors({ origin: '*' }));
 
 const subscriptions: any[] = [];  // Simulando um banco de dados
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json("Hello, World!");
+});
+
 app.get('/push/public_key', (req: Request, res: Response) => {
   res.status(200).json({ publicKey: VAPID_PUBLIC_KEY });
 });
