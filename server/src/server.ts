@@ -49,7 +49,7 @@ app.post('/push/send', async (req: Request, res: Response): Promise<any> => {
 });
 
 // Iniciar o servidor
-const PORT = 3333;
+const PORT = 4000;
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
